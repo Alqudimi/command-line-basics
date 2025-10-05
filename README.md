@@ -55,7 +55,6 @@ Windows CMD Commands	CMD.md
 PowerShell Commands	PowerShell.md
 
 
-> All documentation files are available under the pages/ directory and can be easily edited or expanded.
 
 
 
