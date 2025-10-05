@@ -5,6 +5,11 @@ It includes structured explanations and professional PDF references for quick ac
 
 
 ---
+## Educational website 
+
+- [exploration](https://alqudimi.github.io/command-line-basics/) 
+
+---
 
 📘 Project Overview
 
