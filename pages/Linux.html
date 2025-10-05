@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدليل الشامل لأوامر لينكس</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #e63946;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gradient: linear-gradient(135deg, #4361ee, #3a0ca3);
+            --gradient2: linear-gradient(135deg, #7209b7, #f72585);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,128L48,144C96,160,192,192,288,186.7C384,181,480,139,576,138.7C672,139,768,181,864,197.3C960,213,1056,203,1152,181.3C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-left: 10px;
+            color: var(--accent);
+        }
+        
+        .logo span {
+            color: var(--accent);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .search-box {
+            flex-grow: 1;
+            max-width: 500px;
+            margin: 0 20px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 14px 50px 14px 20px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+        
+        .nav-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow-x: auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            padding: 5px;
+        }
+        
+        .nav-tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-tab i {
+            margin-left: 8px;
+        }
+        
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-tab.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            gap: 25px;
+        }
+        
+        .sidebar {
+            flex: 1;
+            min-width: 280px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidebar h3 i {
+            margin-left: 10px;
+        }
+        
+        .category-list {
+            list-style: none;
+        }
+        
+        .category-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            border-right: 3px solid transparent;
+        }
+        
+        .category-item i {
+            margin-left: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .category-item:hover {
+            background-color: var(--light);
+            transform: translateX(-5px);
+        }
+        
+        .category-item.active {
+            background-color: var(--primary);
+            color: white;
+            border-right: 3px solid var(--accent);
+        }
+        
+        .content-area {
+            flex: 3;
+            min-width: 300px;
+        }
+        
+        .command-section {
+            margin-bottom: 30px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .command-section.active {
+            display: block;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-left: 15px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .command-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .command-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+        }
+        
+        .command-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .command-name {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .command-name i {
+            margin-left: 10px;
+            color: var(--accent);
+        }
+        
+        .command-desc {
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .command-example {
+            background: var(--dark);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin-top: 10px;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .command-example::before {
+            content: "$";
+            color: var(--success);
+            margin-left: 10px;
+        }
+        
+        .command-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .command-tag {
+            background: var(--light);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #555;
+        }
+        
+        .command-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .detail-item {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            min-width: 80px;
+            color: var(--primary);
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+        
+        .quick-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 30px 0;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 15px;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            color: #777;
+            font-weight: 600;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .commands-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .search-box {
+                margin: 20px 0;
+                max-width: 100%;
+            }
+            
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            
+            .commands-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .nav-tab {
+                text-align: center;
+                justify-content: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+                border-left: 4px solid transparent;
+            }
+            
+            .nav-tab.active {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+                border-left: 4px solid white;
+            }
+            
+            .stat {
+                min-width: 100%;
+            }
+        }
+        
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: var(--secondary);
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--success);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-terminal"></i>
+                    دليل <span>لينكس</span>
+                </div>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="ابحث عن أمر لينكس...">
+                </div>
+            </div>
+            
+            <div class="nav-tabs" id="navTabs">
+                <div class="nav-tab active" data-tab="all">
+                    <i class="fas fa-th-list"></i> جميع الأوامر
+                </div>
+                <div class="nav-tab" data-tab="files">
+                    <i class="fas fa-folder"></i> إدارة الملفات
+                </div>
+                <div class="nav-tab" data-tab="system">
+                    <i class="fas fa-cog"></i> إدارة النظام
+                </div>
+                <div class="nav-tab" data-tab="network">
+                    <i class="fas fa-network-wired"></i> الشبكات
+                </div>
+                <div class="nav-tab" data-tab="processes">
+                    <i class="fas fa-tasks"></i> العمليات
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="hero">
+            <h1>الدليل الشامل لأوامر لينكس</h1>
+            <p>أكثر من 100 أمر لينكس مع الشرح التفصيلي والأمثلة العملية</p>
+        </div>
+        
+        <div class="quick-stats">
+            <div class="stat">
+                <div class="stat-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="stat-number" id="totalCommands">0</div>
+                <div class="stat-label">أمر لينكس</div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <div class="stat-number">12</div>
+                <div class="stat-label">فئة رئيسية</div>
+            </div>
+            <div class="stat">
+                <div class="stat-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <div class="stat-number">60+</div>
+                <div class="stat-label">فئة فرعية</div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <h3><i class="fas fa-list"></i> الفئات</h3>
+                <ul class="category-list" id="categoryList">
+                    <!-- سيتم ملؤها بالجافاسكريبت -->
+                </ul>
+            </div>
+            
+            <div class="content-area" id="contentArea">
+                <!-- سيتم ملؤها بالجافاسكريبت -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>دليل أوامر لينكس الشامل &copy; 2025 - جميع الحقوق محفوظة Alqudimi Technology</p>
+            <p>تم تصميم هذه الصفحة لتكون مرجعًا شاملاً للمطورين ومسؤولي الأنظمة</p>
+        </div>
+    </footer>
+
+    <div class="notification" id="notification">تم نسخ الأمر إلى الحافظة!</div>
+
+    <script>
+        // بيانات الأوامر الموسعة
+        const linuxCommands = {
+            files: {
+                title: "أوامر إدارة الملفات",
+                icon: "fas fa-folder",
+                commands: [
+                    {
+                        name: "ls",
+                        description: "عرض محتويات المجلد",
+                        example: "ls -la",
+                        tags: ["ملفات", "عرض", "مجلد"],
+                        usage: "ls [خيارات] [مسار]",
+                        options: "-l: عرض تفصيلي, -a: عرض الملفات المخفية, -h: عرض الأحجام بشكل مقروء"
+                    },
+                    {
+                        name: "cd",
+                        description: "تغيير المجلد الحالي",
+                        example: "cd /home/user/Documents",
+                        tags: ["تنقل", "مجلد"],
+                        usage: "cd [مسار]",
+                        notes: "cd بدون معاملات يعود للمجلد الرئيسي, cd - يعود للمجلد السابق"
+                    },
+                    {
+                        name: "pwd",
+                        description: "عرض المسار الحالي",
+                        example: "pwd",
+                        tags: ["مسار", "موقع"],
+                        usage: "pwd"
+                    },
+                    {
+                        name: "cp",
+                        description: "نسخ الملفات والمجلدات",
+                        example: "cp file1.txt file2.txt",
+                        tags: ["نسخ", "ملفات"],
+                        usage: "cp [خيارات] مصدر هدف",
+                        options: "-r: نسخ مجلدات بشكل متكرر, -i: تأكيد قبل الكتابة"
+                    },
+                    {
+                        name: "mv",
+                        description: "نقل أو إعادة تسمية الملفات",
+                        example: "mv oldname.txt newname.txt",
+                        tags: ["نقل", "تسمية"],
+                        usage: "mv [خيارات] مصدر هدف"
+                    },
+                    {
+                        name: "rm",
+                        description: "حذف الملفات والمجلدات",
+                        example: "rm -rf folder/",
+                        tags: ["حذف", "ملفات"],
+                        usage: "rm [خيارات] ملف...",
+                        options: "-r: حذف مجلدات بشكل متكرر, -f: إجبار الحذف بدون تأكيد",
+                        warning: "استخدم بحذر خاصة مع -rf"
+                    },
+                    {
+                        name: "mkdir",
+                        description: "إنشاء مجلد جديد",
+                        example: "mkdir new_folder",
+                        tags: ["إنشاء", "مجلد"],
+                        usage: "mkdir [خيارات] اسم_المجلد",
+                        options: "-p: إنشاء مسار كامل إذا لم يكن موجودًا"
+                    },
+                    {
+                        name: "rmdir",
+                        description: "حذف مجلد فارغ",
+                        example: "rmdir empty_folder",
+                        tags: ["حذف", "مجلد"],
+                        usage: "rmdir [خيارات] اسم_المجلد"
+                    },
+                    {
+                        name: "touch",
+                        description: "إنشاء ملف جديد أو تحديث وقت التعديل",
+                        example: "touch newfile.txt",
+                        tags: ["إنشاء", "ملف"],
+                        usage: "touch [خيارات] ملف..."
+                    },
+                    {
+                        name: "cat",
+                        description: "عرض محتوى الملف",
+                        example: "cat filename.txt",
+                        tags: ["عرض", "محتوى"],
+                        usage: "cat [خيارات] ملف...",
+                        options: "-n: ترقيم الأسطر, -b: ترقيم الأسطر غير الفارغة"
+                    },
+                    {
+                        name: "more",
+                        description: "عرض الملف صفحة بصفحة",
+                        example: "more file.txt",
+                        tags: ["عرض", "تصفح"],
+                        usage: "more [خيارات] ملف..."
+                    },
+                    {
+                        name: "less",
+                        description: "عرض الملف مع إمكانية التمرير للخلف والأمام",
+                        example: "less file.txt",
+                        tags: ["عرض", "تصفح"],
+                        usage: "less [خيارات] ملف..."
+                    },
+                    {
+                        name: "head",
+                        description: "عرض أول جزء من الملف",
+                        example: "head -n 10 file.txt",
+                        tags: ["عرض", "جزء"],
+                        usage: "head [خيارات] ملف...",
+                        options: "-n: عدد الأسطر المطلوبة"
+                    },
+                    {
+                        name: "tail",
+                        description: "عرض آخر جزء من الملف",
+                        example: "tail -n 10 file.txt",
+                        tags: ["عرض", "جزء"],
+                        usage: "tail [خيارات] ملف...",
+                        options: "-n: عدد الأسطر المطلوبة, -f: متابعة الملف للتحديثات"
+                    }
+                ]
+            },
+            system: {
+                title: "أوامر إدارة النظام",
+                icon: "fas fa-cog",
+                commands: [
+                    {
+                        name: "sudo",
+                        description: "تنفيذ أمر بصلاحيات المدير",
+                        example: "sudo apt update",
+                        tags: ["صلاحيات", "مدير"],
+                        usage: "sudo [خيارات] أمر",
+                        notes: "يتطلب أن يكون المستخدم في مجموعة sudoers"
+                    },
+                    {
+                        name: "apt",
+                        description: "أداة إدارة الحزم في ديبيان/أوبونتو",
+                        example: "sudo apt install package_name",
+                        tags: ["حزم", "تثبيت"],
+                        usage: "apt [أمر] [خيارات]",
+                        common: "install, remove, update, upgrade, search"
+                    },
+                    {
+                        name: "yum",
+                        description: "أداة إدارة الحزم في ريدهات/سينتوس",
+                        example: "sudo yum install package_name",
+                        tags: ["حزم", "تثبيت"],
+                        usage: "yum [أمر] [خيارات]",
+                        common: "install, remove, update, search"
+                    },
+                    {
+                        name: "systemctl",
+                        description: "إدارة خدمات النظام",
+                        example: "sudo systemctl start service_name",
+                        tags: ["خدمات", "نظام"],
+                        usage: "systemctl [أمر] [اسم_الخدمة]",
+                        common: "start, stop, restart, status, enable, disable"
+                    },
+                    {
+                        name: "shutdown",
+                        description: "إيقاف أو إعادة تشغيل النظام",
+                        example: "sudo shutdown -h now",
+                        tags: ["إيقاف", "نظام"],
+                        usage: "shutdown [خيارات] [وقت] [رسالة]",
+                        options: "-h: إيقاف التشغيل, -r: إعادة التشغيل"
+                    },
+                    {
+                        name: "reboot",
+                        description: "إعادة تشغيل النظام",
+                        example: "sudo reboot",
+                        tags: ["إعادة تشغيل", "نظام"],
+                        usage: "reboot [خيارات]"
+                    },
+                    {
+                        name: "df",
+                        description: "عرض مساحة القرص المتاحة",
+                        example: "df -h",
+                        tags: ["قرص", "مساحة"],
+                        usage: "df [خيارات] [ملف/جهاز]",
+                        options: "-h: عرض بشكل مقروء للإنسان"
+                    },
+                    {
+                        name: "du",
+                        description: "عرض مساحة الملفات والمجلدات",
+                        example: "du -sh folder/",
+                        tags: ["قرص", "استخدام"],
+                        usage: "du [خيارات] [ملف/مجلد]",
+                        options: "-s: عرض الإجمالي فقط, -h: عرض بشكل مقروء"
+                    },
+                    {
+                        name: "free",
+                        description: "عرض استخدام الذاكرة",
+                        example: "free -h",
+                        tags: ["ذاكرة", "نظام"],
+                        usage: "free [خيارات]",
+                        options: "-h: عرض بشكل مقروء"
+                    },
+                    {
+                        name: "uname",
+                        description: "عرض معلومات النظام",
+                        example: "uname -a",
+                        tags: ["معلومات", "نظام"],
+                        usage: "uname [خيارات]",
+                        options: "-a: عرض كل المعلومات, -s: عرض اسم النواة"
+                    },
+                    {
+                        name: "lsb_release",
+                        description: "عرض معلومات التوزيعة",
+                        example: "lsb_release -a",
+                        tags: ["معلومات", "توزيعة"],
+                        usage: "lsb_release [خيارات]",
+                        options: "-a: عرض كل المعلومات"
+                    },
+                    {
+                        name: "hostname",
+                        description: "عرض أو تعيين اسم المضيف",
+                        example: "hostname",
+                        tags: ["مضيف", "نظام"],
+                        usage: "hostname [اسم_جديد]"
+                    },
+                    {
+                        name: "date",
+                        description: "عرض أو تعيين التاريخ والوقت",
+                        example: "date",
+                        tags: ["تاريخ", "وقت"],
+                        usage: "date [خيارات] [صيغة]"
+                    },
+                    {
+                        name: "timedatectl",
+                        description: "التحكم في إعدادات الوقت والتاريخ",
+                        example: "timedatectl set-timezone Asia/Riyadh",
+                        tags: ["وقت", "تاريخ", "نظام"],
+                        usage: "timedatectl [أمر] [خيارات]"
+                    }
+                ]
+            },
+            network: {
+                title: "أوامر الشبكات",
+                icon: "fas fa-network-wired",
+                commands: [
+                    {
+                        name: "ping",
+                        description: "اختبار الاتصال مع مضيف",
+                        example: "ping google.com",
+                        tags: ["اتصال", "شبكة"],
+                        usage: "ping [خيارات] مضيف",
+                        options: "-c: عدد الحزم المرسلة, -i: الفاصل بين الحزم"
+                    },
+                    {
+                        name: "ifconfig",
+                        description: "عرض وإعداد واجهات الشبكة",
+                        example: "ifconfig eth0",
+                        tags: ["شبكة", "واجهة"],
+                        usage: "ifconfig [واجهة] [خيارات]"
+                    },
+                    {
+                        name: "ip",
+                        description: "أمر حديث لإدارة الشبكة",
+                        example: "ip addr show",
+                        tags: ["شبكة", "واجهة"],
+                        usage: "ip [أمر] [خيارات]",
+                        common: "addr, link, route, neigh"
+                    },
+                    {
+                        name: "netstat",
+                        description: "عرض إحصائيات الشبكة والاتصالات",
+                        example: "netstat -tulpn",
+                        tags: ["شبكة", "اتصالات"],
+                        usage: "netstat [خيارات]",
+                        options: "-t: اتصالات TCP, -u: اتصالات UDP, -l: منافذ مستمعة, -p: عرض العمليات, -n: عرض عناوين رقمية"
+                    },
+                    {
+                        name: "ss",
+                        description: "أمر حديث لعرض إحصائيات المقابس",
+                        example: "ss -tulpn",
+                        tags: ["شبكة", "اتصالات"],
+                        usage: "ss [خيارات]",
+                        options: "مشابه لـ netstat لكن أسرع وأكثر كفاءة"
+                    },
+                    {
+                        name: "ssh",
+                        description: "الاتصال الآمن بخادم بعيد",
+                        example: "ssh user@hostname",
+                        tags: ["اتصال", "آمن"],
+                        usage: "ssh [خيارات] [مستخدم@]مضيف [أمر]",
+                        options: "-p: منفذ مخصص, -i: ملف مفتاح خاص"
+                    },
+                    {
+                        name: "scp",
+                        description: "نسخ الملفات عبر SSH",
+                        example: "scp file.txt user@host:/path/",
+                        tags: ["نسخ", "ملفات", "شبكة"],
+                        usage: "scp [خيارات] مصدر هدف",
+                        options: "-r: نسخ مجلدات بشكل متكرر, -P: منفذ مخصص"
+                    },
+                    {
+                        name: "wget",
+                        description: "تحميل الملفات من الويب",
+                        example: "wget https://example.com/file.zip",
+                        tags: ["تحميل", "ويب"],
+                        usage: "wget [خيارات] [URL]",
+                        options: "-O: اسم ملف الإخراج, -c: متابعة التحميل المتقطع"
+                    },
+                    {
+                        name: "curl",
+                        description: "نقل البيانات من/إلى الخادم",
+                        example: "curl -O https://example.com/file.zip",
+                        tags: ["تحميل", "ويب"],
+                        usage: "curl [خيارات] [URL]",
+                        options: "-O: حفظ باسم الملف الأصلي, -L: اتبع إعادة التوجيه"
+                    },
+                    {
+                        name: "traceroute",
+                        description: "تتبع مسار الحزم في الشبكة",
+                        example: "traceroute google.com",
+                        tags: ["شبكة", "مسار"],
+                        usage: "traceroute [خيارات] مضيف"
+                    },
+                    {
+                        name: "dig",
+                        description: "استعلام خوادم DNS",
+                        example: "dig example.com",
+                        tags: ["DNS", "شبكة"],
+                        usage: "dig [خيارات] [اسم] [نوع]",
+                        options: "+short: إخراج مبسط, -x: استعلام عكسي"
+                    },
+                    {
+                        name: "nslookup",
+                        description: "استعلام خوادم DNS (أمر قديم)",
+                        example: "nslookup example.com",
+                        tags: ["DNS", "شبكة"],
+                        usage: "nslookup [اسم] [خادم]"
+                    },
+                    {
+                        name: "whois",
+                        description: "استعلام معلومات النطاق",
+                        example: "whois example.com",
+                        tags: ["نطاق", "معلومات"],
+                        usage: "whois [خيارات] نطاق"
+                    },
+                    {
+                        name: "route",
+                        description: "عرض أو تعديل جدول التوجيه",
+                        example: "route -n",
+                        tags: ["شبكة", "توجيه"],
+                        usage: "route [خيارات] [أمر]",
+                        options: "-n: عرض عناوين رقمية"
+                    }
+                ]
+            },
+            processes: {
+                title: "أوامر إدارة العمليات",
+                icon: "fas fa-tasks",
+                commands: [
+                    {
+                        name: "ps",
+                        description: "عرض العمليات النشطة",
+                        example: "ps aux",
+                        tags: ["عمليات", "عرض"],
+                        usage: "ps [خيارات]",
+                        options: "aux: عرض جميع العمليات, -ef: عرض مفصل"
+                    },
+                    {
+                        name: "top",
+                        description: "عرض العمليات النشطة بشكل تفاعلي",
+                        example: "top",
+                        tags: ["عمليات", "مراقبة"],
+                        usage: "top [خيارات]"
+                    },
+                    {
+                        name: "htop",
+                        description: "نسخة محسنة من top",
+                        example: "htop",
+                        tags: ["عمليات", "مراقبة"],
+                        usage: "htop [خيارات]",
+                        notes: "قد يحتاج تثبيت منفصل: sudo apt install htop"
+                    },
+                    {
+                        name: "kill",
+                        description: "إنهاء عملية",
+                        example: "kill 1234",
+                        tags: ["عمليات", "إنهاء"],
+                        usage: "kill [خيارات] PID",
+                        options: "-9: إنهاء فوري وقسري"
+                    },
+                    {
+                        name: "killall",
+                        description: "إنهاء عمليات بالاسم",
+                        example: "killall process_name",
+                        tags: ["عمليات", "إنهاء"],
+                        usage: "killall [خيارات] اسم_العملية"
+                    },
+                    {
+                        name: "pkill",
+                        description: "إنهاء عمليات بالنمط",
+                        example: "pkill -f pattern",
+                        tags: ["عمليات", "إنهاء"],
+                        usage: "pkill [خيارات] نمط"
+                    },
+                    {
+                        name: "bg",
+                        description: "استئناف عملية في الخلفية",
+                        example: "bg %1",
+                        tags: ["عمليات", "خلفية"],
+                        usage: "bg [معرف_العملية]"
+                    },
+                    {
+                        name: "fg",
+                        description: "جلب عملية إلى المقدمة",
+                        example: "fg %1",
+                        tags: ["عمليات", "مقدمة"],
+                        usage: "fg [معرف_العملية]"
+                    },
+                    {
+                        name: "jobs",
+                        description: "عرض العمليات في الخلفية",
+                        example: "jobs",
+                        tags: ["عمليات", "خلفية"],
+                        usage: "jobs [خيارات]"
+                    },
+                    {
+                        name: "nice",
+                        description: "تشغيل عملية بأولوية محددة",
+                        example: "nice -n 10 command",
+                        tags: ["عمليات", "أولوية"],
+                        usage: "nice [خيارات] أمر",
+                        options: "-n: قيمة الأولوية (من -20 إلى 19)"
+                    },
+                    {
+                        name: "renice",
+                        description: "تغيير أولوية عملية قائمة",
+                        example: "renice 5 1234",
+                        tags: ["عمليات", "أولوية"],
+                        usage: "renice [أولوية] [خيارات] PID"
+                    },
+                    {
+                        name: "nohup",
+                        description: "تشغيل أمر يستمر بعد تسجيل الخروج",
+                        example: "nohup command &",
+                        tags: ["عمليات", "خلفية"],
+                        usage: "nohup أمر [خيارات]"
+                    },
+                    {
+                        name: "time",
+                        description: "قياس وقت تنفيذ أمر",
+                        example: "time ls -l",
+                        tags: ["عمليات", "وقت"],
+                        usage: "time أمر"
+                    },
+                    {
+                        name: "watch",
+                        description: "تنفيذ أمر بشكل متكرر",
+                        example: "watch -n 1 df -h",
+                        tags: ["عمليات", "مراقبة"],
+                        usage: "watch [خيارات] أمر",
+                        options: "-n: الفاصل الزمني بالثواني"
+                    }
+                ]
+            }
+        };
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // إنشاء قائمة الفئات
+            const categoryList = document.getElementById('categoryList');
+            for (const category in linuxCommands) {
+                const listItem = document.createElement('li');
+                listItem.className = 'category-item';
+                listItem.innerHTML = `<i class="${linuxCommands[category].icon}"></i> ${linuxCommands[category].title}`;
+                listItem.setAttribute('data-category', category);
+                categoryList.appendChild(listItem);
+            }
+
+            // عرض جميع الأوامر أولاً
+            displayAllCommands();
+
+            // إضافة مستمعي الأحداث
+            setupEventListeners();
+
+            // تحديث الإحصائيات
+            updateStats();
+        });
+
+        // إعداد مستمعي الأحداث
+        function setupEventListeners() {
+            // التنقل بين التبويبات
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // إزالة النشاط من جميع التبويبات
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    // إضافة النشاط للتبويب المحدد
+                    this.classList.add('active');
+                    
+                    const tabId = this.getAttribute('data-tab');
+                    if (tabId === 'all') {
+                        displayAllCommands();
+                    } else {
+                        displayCategory(tabId);
+                    }
+                });
+            });
+
+            // التنقل بين الفئات
+            const categoryItems = document.querySelectorAll('.category-item');
+            categoryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // إزالة النشاط من جميع العناصر
+                    categoryItems.forEach(i => i.classList.remove('active'));
+                    // إضافة النشاط للعنصر المحدد
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    displayCategory(category);
+                });
+            });
+
+            // البحث
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                filterCommands(searchTerm);
+            });
+        }
+
+        // عرض جميع الأوامر
+        function displayAllCommands() {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = '';
+            
+            for (const category in linuxCommands) {
+                const section = document.createElement('div');
+                section.className = 'command-section active';
+                section.id = category;
+                
+                const title = document.createElement('h2');
+                title.className = 'section-title';
+                title.innerHTML = `<i class="${linuxCommands[category].icon}"></i> ${linuxCommands[category].title}`;
+                section.appendChild(title);
+                
+                const grid = document.createElement('div');
+                grid.className = 'commands-grid';
+                
+                linuxCommands[category].commands.forEach(command => {
+                    const commandCard = createCommandCard(command);
+                    grid.appendChild(commandCard);
+                });
+                
+                section.appendChild(grid);
+                contentArea.appendChild(section);
+            }
+        }
+
+        // عرض فئة محددة
+        function displayCategory(category) {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = '';
+            
+            const section = document.createElement('div');
+            section.className = 'command-section active';
+            section.id = category;
+            
+            const title = document.createElement('h2');
+            title.className = 'section-title';
+            title.innerHTML = `<i class="${linuxCommands[category].icon}"></i> ${linuxCommands[category].title}`;
+            section.appendChild(title);
+            
+            const grid = document.createElement('div');
+            grid.className = 'commands-grid';
+            
+            linuxCommands[category].commands.forEach(command => {
+                const commandCard = createCommandCard(command);
+                grid.appendChild(commandCard);
+            });
+            
+            section.appendChild(grid);
+            contentArea.appendChild(section);
+        }
+
+        // إنشاء بطاقة الأمر
+        function createCommandCard(command) {
+            const card = document.createElement('div');
+            card.className = 'command-card';
+            
+            const name = document.createElement('div');
+            name.className = 'command-name';
+            name.innerHTML = `<i class="fas fa-terminal"></i> ${command.name}`;
+            card.appendChild(name);
+            
+            const desc = document.createElement('div');
+            desc.className = 'command-desc';
+            desc.textContent = command.description;
+            card.appendChild(desc);
+            
+            if (command.usage) {
+                const usage = document.createElement('div');
+                usage.className = 'command-details';
+                
+                const usageItem = document.createElement('div');
+                usageItem.className = 'detail-item';
+                
+                const usageLabel = document.createElement('span');
+                usageLabel.className = 'detail-label';
+                usageLabel.textContent = 'الاستخدام:';
+                
+                const usageValue = document.createElement('span');
+                usageValue.textContent = command.usage;
+                usageValue.style.fontFamily = "'Courier New', monospace";
+                usageValue.style.fontSize = "0.9rem";
+                
+                usageItem.appendChild(usageLabel);
+                usageItem.appendChild(usageValue);
+                usage.appendChild(usageItem);
+                card.appendChild(usage);
+            }
+            
+            if (command.example) {
+                const exampleContainer = document.createElement('div');
+                exampleContainer.style.marginTop = '10px';
+                
+                const example = document.createElement('div');
+                example.className = 'command-example';
+                example.textContent = command.example;
+                exampleContainer.appendChild(example);
+                
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i> نسخ';
+                copyBtn.addEventListener('click', function() {
+                    copyToClipboard(command.example.replace('$', '').trim());
+                    showNotification();
+                });
+                exampleContainer.appendChild(copyBtn);
+                
+                card.appendChild(exampleContainer);
+            }
+            
+            if (command.options) {
+                const options = document.createElement('div');
+                options.className = 'command-details';
+                
+                const optionsItem = document.createElement('div');
+                optionsItem.className = 'detail-item';
+                
+                const optionsLabel = document.createElement('span');
+                optionsLabel.className = 'detail-label';
+                optionsLabel.textContent = 'الخيارات:';
+                
+                const optionsValue = document.createElement('span');
+                optionsValue.textContent = command.options;
+                optionsValue.style.fontSize = "0.9rem";
+                
+                optionsItem.appendChild(optionsLabel);
+                optionsItem.appendChild(optionsValue);
+                options.appendChild(optionsItem);
+                card.appendChild(options);
+            }
+            
+            if (command.tags && command.tags.length > 0) {
+                const tags = document.createElement('div');
+                tags.className = 'command-tags';
+                
+                command.tags.forEach(tag => {
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'command-tag';
+                    tagElement.textContent = tag;
+                    tags.appendChild(tagElement);
+                });
+                
+                card.appendChild(tags);
+            }
+            
+            return card;
+        }
+
+        // تصفية الأوامر حسب البحث
+        function filterCommands(searchTerm) {
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = '';
+            
+            const resultsSection = document.createElement('div');
+            resultsSection.className = 'command-section active';
+            
+            const title = document.createElement('h2');
+            title.className = 'section-title';
+            title.innerHTML = `<i class="fas fa-search"></i> نتائج البحث عن: "${searchTerm}"`;
+            resultsSection.appendChild(title);
+            
+            let foundResults = false;
+            const grid = document.createElement('div');
+            grid.className = 'commands-grid';
+            
+            for (const category in linuxCommands) {
+                const matchingCommands = linuxCommands[category].commands.filter(command => {
+                    return command.name.toLowerCase().includes(searchTerm) ||
+                           command.description.toLowerCase().includes(searchTerm) ||
+                           (command.tags && command.tags.some(tag => tag.toLowerCase().includes(searchTerm))) ||
+                           (command.usage && command.usage.toLowerCase().includes(searchTerm));
+                });
+                
+                if (matchingCommands.length > 0) {
+                    foundResults = true;
+                    
+                    matchingCommands.forEach(command => {
+                        const commandCard = createCommandCard(command);
+                        grid.appendChild(commandCard);
+                    });
+                }
+            }
+            
+            if (!foundResults) {
+                const noResults = document.createElement('div');
+                noResults.className = 'command-card';
+                noResults.style.textAlign = 'center';
+                noResults.style.padding = '40px';
+                noResults.innerHTML = `
+                    <i class="fas fa-search" style="font-size: 3rem; color: #ccc; margin-bottom: 15px;"></i>
+                    <div class="command-desc">لم يتم العثور على أي أوامر تطابق بحثك.</div>
+                `;
+                grid.appendChild(noResults);
+            }
+            
+            resultsSection.appendChild(grid);
+            contentArea.appendChild(resultsSection);
+        }
+
+        // تحديث الإحصائيات
+        function updateStats() {
+            let totalCommands = 0;
+            for (const category in linuxCommands) {
+                totalCommands += linuxCommands[category].commands.length;
+            }
+            document.getElementById('totalCommands').textContent = totalCommands;
+        }
+
+        // نسخ إلى الحافظة
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+
+        // عرض إشعار النسخ
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Line Basics | الدليل الشامل لأساسيات سطر الأوامر</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0078d4; /* CMD Blue */
+            --linux-green: #39d353;
+            --powershell-blue: #5391fe;
+            --accent: #ffb900;
+            --light: #f3f2f1;
+            --dark: #323130;
+            --gradient: linear-gradient(135deg, #0078d4, #005a9e);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 3rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,128L48,144C96,160,192,192,288,186.7C384,181,480,139,576,138.7C672,139,768,181,864,197.3C960,213,1056,203,1152,181.3C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo i {
+            margin-left: 15px;
+            color: var(--accent);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header-content p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            padding: 4rem 0;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .card-link {
+            text-decoration: none;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-top: 5px solid;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.75rem;
+            color: var(--dark);
+        }
+        
+        .card p {
+            color: #555;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        /* Card Specific Styles */
+        .card.linux { border-color: var(--linux-green); }
+        .card.linux .card-icon { color: var(--linux-green); }
+        
+        .card.cmd { border-color: var(--primary); }
+        .card.cmd .card-icon { color: var(--primary); }
+        
+        .card.powershell { border-color: var(--powershell-blue); }
+        .card.powershell .card-icon { color: var(--powershell-blue); }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+        
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            .header-content p {
+                font-size: 1rem;
+            }
+            .main-content {
+                padding: 2rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-terminal"></i>
+                    Command Line Basics
+                </div>
+                <p>
+                    دليلك الشامل لأساسيات سطر الأوامر. يجمع المشروع أهم الأوامر لأنظمة Linux و Windows CMD و PowerShell في مكان واحد، مع مراجع احترافية للوصول السريع.
+                </p>
+            </div>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <div class="container">
+            <div class="cards-grid">
+                <!-- Linux Card -->
+                <a href="pages/Linux.html" class="card-link">
+                    <div class="card linux">
+                        <div class="card-icon">
+                            <i class="fab fa-linux"></i>
+                        </div>
+                        <h2>Linux</h2>
+                        <p>استكشف قوة نظام لينكس مع أوامر إدارة النظام، الملفات، الشبكات، والصلاحيات.</p>
+                    </div>
+                </a>
+                
+                <!-- CMD Card -->
+                <a href="pages/CMD.html" class="card-link">
+                    <div class="card cmd">
+                        <div class="card-icon">
+                            <i class="fas fa-window-maximize"></i>
+                        </div>
+                        <h2>Windows CMD</h2>
+                        <p>أتقن موجه الأوامر التقليدي في ويندوز مع أدوات إدارة الملفات، الشبكات، وأدوات التشخيص.</p>
+                    </div>
+                </a>
+                
+                <!-- PowerShell Card -->
+                <a href="pages/PowerShell.html" class="card-link">
+                    <div class="card powershell">
+                        <div class="card-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h2>PowerShell</h2>
+                        <p>انتقل إلى مستوى متقدم من الأتمتة وإدارة الأنظمة مع أوامر PowerShell الحديثة.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 - Command Line Basics</p>
+            <p>تم التطوير بواسطة <a href="https://github.com/Alqudimi" target="_blank" rel="noopener noreferrer">Abdulaziz Alqudaimi</a></p>
+        </div>
+    </footer>
+</body>
+</html>
