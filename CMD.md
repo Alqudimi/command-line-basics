@@ -1,10 +1,3 @@
-
----
-title: "Command Line Basics"
-layout: default
----
----
-
 # The Ultimate CMD Command Reference CMD-Cheatsheet
 
 A curated list of the most common and useful commands for the Windows Command Prompt (`cmd.exe`). This guide is intended for beginners and experienced users who need a quick reference.
