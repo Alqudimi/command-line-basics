@@ -1,6 +1,4 @@
----
-
-⚙️ Command Line Basics
+#⚙️ Command Line Basics
 
 Command Line Basics is a comprehensive project that consolidates the most essential commands for Linux, Windows CMD, and PowerShell — all in one place.
 It includes structured explanations and professional PDF references for quick access during work.
