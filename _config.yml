@@ -1,0 +1,9 @@
+# _config.yml
+include: 
+  - index.html
+  - pages/Linux.html
+  - pages/CMD.html
+  - pages/PowerShell.html
+
+exclude:
+  - "**/*.md"   
