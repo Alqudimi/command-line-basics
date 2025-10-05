@@ -1,5 +1,3 @@
----
-
 # The Modern PowerShell Command Reference | PS-Cheatsheet
 
 A comprehensive guide to essential PowerShell cmdlets (pronounced "command-lets"). This cheatsheet is designed for system administrators, developers, and power users transitioning from `CMD` or `bash`, or those who need a quick reference for modern Windows automation.
