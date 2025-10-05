@@ -3,209 +3,684 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Command Line Basics | الصفحة الرئيسية</title>
+    <title>مرجع أنظمة الأوامر - Command Systems Reference</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- Google Fonts --- */
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
-
-        /* --- Global Styles & Resets --- */
         :root {
-            --bg-color: #0d1117;
-            --card-bg-color: #161b22;
-            --border-color: #30363d;
-            --text-color: #c9d1d9;
-            --text-secondary-color: #8b949e;
-            --accent-color: #58a6ff;
-            --linux-hover: #39d353;
-            --cmd-hover: #0078d6;
-            --powershell-hover: #5391fe;
+            --linux-color: #1793d1;
+            --cmd-color: #0078d4;
+            --powershell-color: #012456;
+            --accent: #ff6b35;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 2rem 1rem;
-            text-align: center;
-        }
-
-        /* --- Main Container --- */
-        .container {
-            max-width: 900px;
-            width: 100%;
-        }
-
-        /* --- Header Section --- */
-        .header {
-            margin-bottom: 3rem;
-        }
-
-        .header h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            letter-spacing: -1px;
-        }
-
-        .header h1 .icon {
-            font-family: monospace;
-            color: var(--accent-color);
-            font-weight: normal;
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            color: var(--text-secondary-color);
-            max-width: 600px;
-            margin: 0 auto;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-
-        /* --- Cards Section --- */
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            padding: 2rem 0;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-left: 15px;
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link i {
+            margin-left: 8px;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        /* Cards Section */
+        .cards-section {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
         }
-
+        
         .card {
-            background-color: var(--card-bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-header {
+            padding: 25px 25px 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-left: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .linux .card-icon {
+            background: var(--linux-color);
+        }
+        
+        .cmd .card-icon {
+            background: var(--cmd-color);
+        }
+        
+        .powershell .card-icon {
+            background: var(--powershell-color);
+        }
+        
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+        
+        .card-body {
+            padding: 20px 25px;
+            flex-grow: 1;
+        }
+        
+        .card-description {
+            margin-bottom: 20px;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+        
+        .card-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        
+        .card-features li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-features i {
+            margin-left: 10px;
+            color: var(--accent);
+        }
+        
+        .card-footer {
+            padding: 0 25px 25px;
+            margin-top: auto;
+        }
+        
+        .card-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
             text-decoration: none;
-            color: var(--text-color);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-btn i {
+            margin-right: 8px;
+        }
+        
+        .card-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .linux .card-btn:hover {
+            background: var(--linux-color);
+        }
+        
+        .cmd .card-btn:hover {
+            background: var(--cmd-color);
+        }
+        
+        .powershell .card-btn:hover {
+            background: var(--powershell-color);
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            padding: 4rem 0;
+            background: rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            border-radius: 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
             justify-content: center;
         }
-
-        .card:hover {
-            transform: translateY(-8px);
-        }
-
-        .card .icon-container {
-            margin-bottom: 1.5rem;
-        }
-
-        .card svg {
-            width: 50px;
-            height: 50px;
-            fill: var(--text-secondary-color);
-            transition: fill 0.3s ease;
-        }
-
-        .card:hover svg {
-            fill: #fff;
-        }
-
-        .card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .card p {
-            font-size: 1rem;
-            color: var(--text-secondary-color);
-            line-height: 1.5;
-        }
         
-        /* --- Hover Effects for each card --- */
-        .card.linux:hover { border-color: var(--linux-hover); }
-        .card.cmd:hover { border-color: var(--cmd-hover); }
-        .card.powershell:hover { border-color: var(--powershell-hover); }
-
-        /* --- Footer Section --- */
-        .footer {
-            margin-top: 4rem;
-            font-size: 0.9rem;
-            color: var(--text-secondary-color);
-        }
-
-        .footer a {
-            color: var(--accent-color);
+        .footer-link {
+            color: white;
             text-decoration: none;
-            font-weight: bold;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
+            transition: all 0.3s ease;
         }
         
-        /* --- Responsive Adjustments --- */
-        @media (max-width: 600px) {
-            .header h1 {
+        .footer-link:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            opacity: 0.7;
+        }
+        
+        /* Floating Elements */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 1rem;
+            }
+            
+            .nav-links {
+                justify-content: center;
+            }
+            
+            .hero h1 {
                 font-size: 2.2rem;
             }
-            .header p {
-                font-size: 1rem;
+            
+            .hero p {
+                font-size: 1.1rem;
             }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .card-icon {
+                margin-left: 0;
+                margin-bottom: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .card {
-                padding: 1.5rem;
+                margin: 0 10px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-
+    <!-- Floating Background Elements -->
+    <div class="floating-elements">
+        <div class="floating-element" style="width: 80px; height: 80px; top: 10%; left: 10%; animation-delay: 0s;"></div>
+        <div class="floating-element" style="width: 100px; height: 100px; top: 20%; left: 80%; animation-delay: 2s;"></div>
+        <div class="floating-element" style="width: 60px; height: 60px; top: 60%; left: 15%; animation-delay: 4s;"></div>
+        <div class="floating-element" style="width: 90px; height: 90px; top: 70%; left: 70%; animation-delay: 6s;"></div>
+        <div class="floating-element" style="width: 70px; height: 70px; top: 40%; left: 50%; animation-delay: 8s;"></div>
+    </div>
+    
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1><span class="icon">⚙️</span> Command Line Basics</h1>
-            <p>
-                مرجع شامل يجمع أهم الأوامر الأساسية لأنظمة لينكس، CMD، وPowerShell في مكان واحد، مع مراجع منظمة للوصول السريع.
-            </p>
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-terminal"></i>
+                    مرجع <span>أنظمة الأوامر</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#linux" class="nav-link">
+                        <i class="fab fa-linux"></i> Linux
+                    </a>
+                    <a href="#cmd" class="nav-link">
+                        <i class="fas fa-window-restore"></i> CMD
+                    </a>
+                    <a href="#powershell" class="nav-link">
+                        <i class="fas fa-bolt"></i> PowerShell
+                    </a>
+                </div>
+            </div>
         </header>
-
-        <!-- Navigation Cards -->
-        <main class="cards-grid">
-            <!-- Linux Card -->
-            <a href="pages/Linux.html" class="card linux">
-                <div class="icon-container">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4.68,14.75C3.8,15.04,3,15.26,3,15.26L3.11,16.5C3.11,16.5,4.2,16.22,5.1,15.91C6,15.6,6.89,15.33,6.89,15.33L6.79,14.07C6.79,14.07,5.57,14.46,4.68,14.75M10.16,13.43C9.1,13.82,8.08,14.15,8.08,14.15L8.18,15.41C8.18,15.41,9.23,15.08,10.27,14.69C11.32,14.3,12.33,13.97,12.33,13.97L12.23,12.71C12.23,12.71,11.21,13.04,10.16,13.43M15.41,11.83C14.23,12.27,13.11,12.67,13.11,12.67L13.21,13.93C13.21,13.93,14.38,13.5,15.53,13.07C16.68,12.64,17.78,12.24,17.78,12.24L17.68,10.97C17.68,10.97,16.58,11.39,15.41,11.83M20.9,18.5C20.4,20.07,19.3,21.47,17.6,22.5C15.9,23.53,13.8,24,12,24C10.2,24,8.1,23.53,6.4,22.5C4.7,21.47,3.6,20.07,3.1,18.5C2.6,16.93,3,15.5,3,15.5L3.11,16.5C3.11,16.5,3.4,17.5,4.2,18.4C5,19.3,6.2,20.1,7.9,20.9C9.6,21.7,11.1,22,12,22C12.9,22,14.4,21.7,16.1,20.9C17.8,20.1,19,19.3,19.8,18.4C20.6,17.5,20.9,16.5,20.9,16.5L21,15.5C21,15.5,21.4,16.93,20.9,18.5M19.04,6.22C18.89,6.11,18.74,6,18.6,6C18.3,6,18.05,6.17,17.93,6.43C17.41,7.5,16.4,9.33,14.6,10.5C13.2,11.4,12,11.7,12,11.7C12,11.7,10.8,11.4,9.4,10.5C7.6,9.33,6.59,7.5,6.07,6.43C5.95,6.17,5.7,6,5.4,6C5.26,6,5.11,6.11,4.96,6.22C4.81,6.33,4.7,6.47,4.64,6.63C4.5,7,4.5,7.7,5.2,8.9C6.1,10.5,7.8,11.8,9.7,12.7C10.6,13.1,11.3,13.3,12,13.3C12.7,13.3,13.4,13.1,14.3,12.7C16.2,11.8,17.9,10.5,18.8,8.9C19.5,7.7,19.5,7,19.36,6.63C19.3,6.47,19.19,6.33,19.04,6.22M12,0C11.2,0,10.5,0.1,9.9,0.4C9.3,0.7,8.8,1.1,8.4,1.6C8,2.1,7.7,2.7,7.5,3.3C7.3,3.9,7.2,4.5,7.2,5.2C7.2,5.8,7.3,6.5,7.6,7.1C7.9,7.7,8.2,8.2,8.7,8.7C9.2,9.2,9.7,9.5,10.3,9.8C10.9,10.1,11.5,10.2,12.1,10.2C12.9,10.2,13.6,10.1,14.2,9.8C14.8,9.5,15.3,9.1,15.7,8.6C16.1,8.1,16.4,7.6,16.7,7C16.9,6.4,17,5.8,17,5.1C17,4.4,16.9,3.8,16.7,3.2C16.5,2.6,16.2,2.1,15.8,1.6C15.4,1.1,14.9,0.7,14.3,0.4C13.7,0.1,13,0,12.2,0H12M12,2C12.4,2,12.9,2.1,13.3,2.4C13.7,2.7,14,3.1,14.2,3.5C14.4,3.9,14.5,4.4,14.5,5C14.5,5.6,14.4,6.1,14.2,6.5C14,6.9,13.7,7.3,13.3,7.6C12.9,7.9,12.4,8,12,8C11.6,8,11.1,7.9,10.7,7.6C10.3,7.3,10,6.9,9.8,6.5C9.6,6.1,9.5,5.6,9.5,5C9.5,4.4,9.6,3.9,9.8,3.5C10,3.1,10.3,2.7,10.7,2.4C11.1,2.1,11.6,2,12,2Z" /></svg>
+        
+        <section class="hero">
+            <h1>مرجع شامل لأنظمة الأوامر</h1>
+            <p>اكتشف أوامر Linux وCMD وPowerShell مع شرح مفصل وأمثلة عملية. مصمم للمطورين ومسؤولي الأنظمة والمهتمين بأتمتة المهام.</p>
+        </section>
+        
+        <section class="cards-section">
+            <h2 class="section-title">أنظمة الأوامر المتاحة</h2>
+            <div class="cards-grid">
+                <!-- Linux Card -->
+                <div class="card linux" id="linux">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fab fa-linux"></i>
+                        </div>
+                        <h3 class="card-title">Linux Terminal</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-description">
+                            نظام الأوامر القوي لنظام Linux، يوفر تحكمًا كاملاً في النظام وإدارة الملفات والشبكات والعمليات.
+                        </p>
+                        <ul class="card-features">
+                            <li><i class="fas fa-check"></i> أكثر من 100 أمر أساسي</li>
+                            <li><i class="fas fa-check"></i> إدارة الملفات والمجلدات</li>
+                            <li><i class="fas fa-check"></i> إدارة العمليات والخدمات</li>
+                            <li><i class="fas fa-check"></i> أدوات الشبكات والأمان</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="pages/Linux.html" class="card-btn">
+                            <i class="fas fa-external-link-alt"></i> استكشاف أوامر Linux
+                        </a>
+                    </div>
                 </div>
-                <h2>Linux</h2>
-                <p>إدارة النظام، التعامل مع الملفات، والتحكم بالشبكات والصلاحيات.</p>
-            </a>
-
-            <!-- CMD Card -->
-            <a href="pages/CMD.html" class="card cmd">
-                <div class="icon-container">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13,2.05V2.05C18.05,2.55 22,6.82 22,12C22,17.52 17.52,22 12,22C6.48,22 2,17.52 2,12C2,6.82 5.95,2.55 11,2.05V2.05M13,4.06V4.06C17.5,4.56 21,8.39 21,13C21,17.42 17.42,21 13,21H12C7.58,21 4,17.42 4,13C4,8.39 7.5,4.56 12,4.06V4.06M13,6V12H11V6H13M10,5H7V7H10V5M17,5H14V7H17V5Z" /></svg>
+                
+                <!-- CMD Card -->
+                <div class="card cmd" id="cmd">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-window-restore"></i>
+                        </div>
+                        <h3 class="card-title">Windows CMD</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-description">
+                            موجه أوامر Windows التقليدي، أداة أساسية لإدارة نظام Windows وإصلاح المشكلات وأتمتة المهام.
+                        </p>
+                        <ul class="card-features">
+                            <li><i class="fas fa-check"></i> أكثر من 80 أمر أساسي</li>
+                            <li><i class="fas fa-check"></i> إدارة الملفات والمجلدات</li>
+                            <li><i class="fas fa-check"></i> أدوات الشبكات والاتصال</li>
+                            <li><i class="fas fa-check"></i> إدارة النظام والخدمات</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="pages/CMD.html" class="card-btn">
+                            <i class="fas fa-external-link-alt"></i> استكشاف أوامر CMD
+                        </a>
+                    </div>
                 </div>
-                <h2>Windows CMD</h2>
-                <p>أوامر إدارة الملفات، أدوات التشخيص، والتحكم في نظام ويندوز التقليدي.</p>
-            </a>
-
-            <!-- PowerShell Card -->
-            <a href="pages/PowerShell.html" class="card powershell">
-                <div class="icon-container">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,3H20A2,2 0 0,1 22,5V19A2,2 0 0,1 20,21H4A2,2 0 0,1 2,19V5A2,2 0 0,1 4,3M4.5,17.5H11.5V19H4.5V17.5M13.21,15.9L16.5,12.6L13.21,9.3L14.62,7.89L19.34,12.6L14.62,17.31L13.21,15.9M6.22,14.11L7.64,12.69L6.22,11.28L7.64,9.86L10.46,12.69L7.64,15.53L6.22,14.11Z" /></svg>
+                
+                <!-- PowerShell Card -->
+                <div class="card powershell" id="powershell">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="card-title">Windows PowerShell</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-description">
+                            بيئة سطر أوامر متقدمة ونموذج برمجة نصية مبنية على .NET، توفر تحكمًا قويًا في نظام Windows.
+                        </p>
+                        <ul class="card-features">
+                            <li><i class="fas fa-check"></i> أكثر من 100 أمر متقدم</li>
+                            <li><i class="fas fa-check"></i> إدارة النظام والخدمات</li>
+                            <li><i class="fas fa-check"></i> أدوات الشبكات والأمان</li>
+                            <li><i class="fas fa-check"></i> إدارة الوحدات النمطية</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="pages/PowerShell.html" class="card-btn">
+                            <i class="fas fa-external-link-alt"></i> استكشاف أوامر PowerShell
+                        </a>
+                    </div>
                 </div>
-                <h2>PowerShell</h2>
-                <p>الأتمتة الحديثة، إدارة الأنظمة المتقدمة، وكتابة السكربتات القوية.</p>
-            </a>
-        </main>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>
-                تم التطوير بواسطة <a href="https://github.com/Alqudimi" target="_blank" rel="noopener noreferrer">Abdulaziz Alqudaimi</a>
-            </p>
+            </div>
+        </section>
+        
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="stat-number">280+</div>
+                    <div class="stat-label">أمر مفصل</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">أنظمة أوامر</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">مجاني ومفتوح</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="stat-number">متجاوب</div>
+                    <div class="stat-label">لجميع الشاشات</div>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-terminal"></i> مرجع أنظمة الأوامر
+                </div>
+                <div class="footer-links">
+                    <a href="#linux" class="footer-link">Linux</a>
+                    <a href="#cmd" class="footer-link">CMD</a>
+                    <a href="#powershell" class="footer-link">PowerShell</a>
+                    <a href="#" class="footer-link">عن المشروع</a>
+                </div>
+                <div class="copyright">
+                    &copy; 2023 مرجع أنظمة الأوامر. جميع الحقوق محفوظة.
+                </div>
+            </div>
         </footer>
     </div>
 
+    <script>
+        // إضافة تأثيرات تفاعلية إضافية
+        document.addEventListener('DOMContentLoaded', function() {
+            // تأثير التمرير السلس للروابط الداخلية
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if(targetId !== '#') {
+                        const targetElement = document.querySelector(targetId);
+                        if(targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // تأثير ظهور العناصر عند التمرير
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // تطبيق تأثير الظهور على البطاقات
+            document.querySelectorAll('.card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(card);
+            });
+            
+            // تطبيق تأثير الظهور على الإحصائيات
+            document.querySelectorAll('.stat').forEach(stat => {
+                stat.style.opacity = '0';
+                stat.style.transform = 'translateY(20px)';
+                stat.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                observer.observe(stat);
+            });
+        });
+    </script>
 </body>
 </html>
