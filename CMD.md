@@ -1,3 +1,8 @@
+
+---
+title: "Command Line Basics"
+layout: default
+---
 ---
 
 # The Ultimate CMD Command Reference CMD-Cheatsheet
